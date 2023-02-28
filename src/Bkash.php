@@ -32,21 +32,28 @@ class Bkash
      * 
      * @var string
      */
-    private $app_key;
+    private $appKey;
 
     /**
      * Bkash app secret.
      * 
      * @var string
      */
-    private $app_secret;
+    private $appSecret;
 
     /**
      * Bkash base url.
      * 
      * @var string
      */
-    private $base_url;
+    private $baseUrl;
+
+    /**
+     * Callback URL
+     * 
+     * @var string
+     */
+    private $callbackUrl;
 
     /**
      * Bkash instance.
@@ -58,9 +65,10 @@ class Bkash
         $this->sandbox = config('bkash.sandbox');
         $this->username = config('bkash.username');
         $this->password = config('bkash.password');
-        $this->app_key = config('bkash.app_key');
-        $this->app_secret = config('bkash.app_secret');
-        $this->base_url = $this->sandbox ? config('bkash.sandbox_url') : config('bkash.production_url');
+        $this->appKey = config('bkash.appKey');
+        $this->appSecret = config('bkash.appSecret');
+        $this->baseUrl = $this->sandbox ? config('bkash.sandboxUrl') : config('bkash.productionUrl');
+        $this->callbackUrl = config('bkash.callbackUrl');
     }
 
     /**
@@ -103,10 +111,10 @@ class Bkash
      */
     public function grantTokens()
     {
-        $url = $this->base_url . '/checkout/token/grant';
+        $url = $this->baseUrl . '/checkout/token/grant';
         $data = [
-            'app_key' => $this->app_key,
-            'app_secret' => $this->app_secret,
+            'app_key' => $this->appKey,
+            'app_secret' => $this->appSecret,
         ];
 
         $headers = [
@@ -140,16 +148,16 @@ class Bkash
     /**
      * Refresh Token.
      *
-     * @param string $refresh_token
+     * @param string $refreshToken
      * @return string|boolean
      */
-    public function refreshTokens(string $refresh_token)
+    public function refreshTokens(string $refreshToken)
     {
-        $url = $this->base_url . '/checkout/token/refresh';
+        $url = $this->baseUrl . '/checkout/token/refresh';
         $data = [
-            'app_key' => $this->app_key,
-            'app_secret' => $this->app_secret,
-            'refresh_token' => $refresh_token,
+            'app_key' => $this->appKey,
+            'app_secret' => $this->appSecret,
+            'refresh_token' => $refreshToken,
         ];
 
         $headers = [
@@ -173,12 +181,50 @@ class Bkash
     /**
      * Refresh id token.
      * 
-     * @param string $refresh_token
+     * @param string $refreshToken
      * @return string|boolean
      */
-    public function refreshIdToken(string $refresh_token)
+    public function refreshIdToken(string $refreshToken)
     {
-        $tokens = $this->refreshTokens($refresh_token);
+        $tokens = $this->refreshTokens($refreshToken);
         return $tokens['id_token'] ?? false;
+    }
+
+    /**
+     * Create Payment.
+     *
+     * @param string $token
+     * @param int $amount
+     * @param string $invoiceId
+     * @param string $payerReference = null
+     * @param string $currency = "BDT"
+     * @param string $intent = "sale"
+     * @return array|boolean
+     */
+    public function createPayment(string $token, $amount, string $invoiceId, $payerReference = null, string $currency = "BDT", string $intent = "sale")
+    {
+        $url = $this->baseUrl . '/checkout/create';
+        $headers = array(
+            "Authorization: Bearer " . $token,
+            "Content-Type: application/json",
+            "x-app-key: " . $this->appKey
+        );
+        $data = [
+            "mode" => "0011",
+            "callbackURL" =>  $this->callbackUrl,
+            'amount' => $amount,
+            'currency' => $currency,
+            'intent' => $intent,
+            'merchantInvoiceNumber' => $invoiceId,
+            "payerReference" => $payerReference ?? $invoiceId
+        ];
+
+        $response = $this->remotePostRequest($url, $data, $headers);
+        if ($response['status']) {
+            if (isset($response['body']->statusCode) && $response['body']->statusCode == '0000') {
+                return (array) $response['body'];
+            }
+        }
+        return false;
     }
 }

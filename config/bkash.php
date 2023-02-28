@@ -21,11 +21,13 @@ return [
 
     'password' => env('BKASH_PASSWORD', ''),
 
-    'app_key' => env('BKASH_APP_KEY', ''),
+    'appKey' => env('BKASH_APP_KEY', ''),
 
-    'app_secret' => env('BKASH_APP_SECRET', ''),
+    'appSecret' => env('BKASH_APP_SECRET', ''),
 
-    'production_url' => env('BKASH_PRODUCTION_URL', 'https://checkout.sandbox.bka.sh/v1.2.0-beta'),
+    'productionUrl' => env('BKASH_PRODUCTION_URL', 'https://checkout.sandbox.bka.sh/v1.2.0-beta'),
 
-    'sandbox_url' => 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized',
+    'sandboxUrl' => 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized',
+    
+    'callbackUrl' => '/payment/success',
 ];
