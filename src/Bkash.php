@@ -97,11 +97,11 @@ class Bkash
     }
 
     /**
-     * Bkash grant token.
+     * Bkash grant tokens.
      *
-     * @return string|boolean
+     * @return array|boolean
      */
-    public function grantToken()
+    public function grantTokens()
     {
         $url = $this->base_url . '/checkout/token/grant';
         $data = [
@@ -117,7 +117,68 @@ class Bkash
         ];
 
         $response = $this->remotePostRequest($url, $data, $headers);
+        if (isset($response['body']->id_token) && isset($response['body']->refresh_token)) {
+            return [
+                'id_token' => $response['body']->id_token,
+                'refresh_token' => $response['body']->refresh_token
+            ];
+        }
+        return false;
+    }
 
-        return $response['body']->id_token ?? false;
+    /**
+     * Id token.
+     * 
+     * @return string|boolean
+     */
+    public function idToken()
+    {
+        $tokens = $this->grantTokens();
+        return $tokens['id_token'] ?? false;
+    }
+
+    /**
+     * Refresh Token.
+     *
+     * @param string $refresh_token
+     * @return string|boolean
+     */
+    public function refreshTokens(string $refresh_token)
+    {
+        $url = $this->base_url . '/checkout/token/refresh';
+        $data = [
+            'app_key' => $this->app_key,
+            'app_secret' => $this->app_secret,
+            'refresh_token' => $refresh_token,
+        ];
+
+        $headers = [
+            'Accept: application/json',
+            'Content-Type: application/json',
+            'username: ' . $this->username,
+            'password: ' . $this->password,
+        ];
+
+
+        $response = $this->remotePostRequest($url, $data, $headers);
+        if (isset($response['body']->id_token) && isset($response['body']->refresh_token)) {
+            return [
+                'id_token' => $response['body']->id_token,
+                'refresh_token' => $response['body']->refresh_token
+            ];
+        }
+        return false;
+    }
+
+    /**
+     * Refresh id token.
+     * 
+     * @param string $refresh_token
+     * @return string|boolean
+     */
+    public function refreshIdToken(string $refresh_token)
+    {
+        $tokens = $this->refreshTokens($refresh_token);
+        return $tokens['id_token'] ?? false;
     }
 }
