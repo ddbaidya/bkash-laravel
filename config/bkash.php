@@ -25,7 +25,7 @@ return [
 
     'app_secret' => env('BKASH_APP_SECRET', ''),
 
-    'bkash_api_url' => env('BKASH_API_BASE_URL', 'https://checkout.sandbox.bka.sh/v1.2.0-beta'),
+    'production_url' => env('BKASH_PRODUCTION_URL', 'https://checkout.sandbox.bka.sh/v1.2.0-beta'),
 
-    'bkash_sandbox_url' => 'https://checkout.sandbox.bka.sh/v1.2.0-beta',
+    'sandbox_url' => 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized',
 ];
