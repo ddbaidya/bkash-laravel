@@ -24,5 +24,9 @@ class BkashServiceProvider extends ServiceProvider
                 __DIR__ . '/../config/bkash.php' => config_path('bkash.php'),
             ]);
         }
+
+        $this->app->singleton('bkash', function () {
+            return new Bkash();
+        });
     }
 }
