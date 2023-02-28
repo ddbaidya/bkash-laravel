@@ -14,5 +14,18 @@ return [
     | processed securely and efficiently.
     |
     */
-    
+
+    'sandbox' => env('BKASH_SANDBOX', true),
+
+    'username' => env('BKASH_USERNAME', 'sandboxTestUser'),
+
+    'password' => env('BKASH_PASSWORD', ''),
+
+    'app_key' => env('BKASH_APP_KEY', ''),
+
+    'app_secret' => env('BKASH_APP_SECRET', ''),
+
+    'bkash_api_url' => env('BKASH_API_BASE_URL', 'https://checkout.sandbox.bka.sh/v1.2.0-beta'),
+
+    'bkash_sandbox_url' => 'https://checkout.sandbox.bka.sh/v1.2.0-beta',
 ];
