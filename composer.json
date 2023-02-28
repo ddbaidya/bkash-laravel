@@ -1,0 +1,18 @@
+{
+    "name": "ddbaidya/bkash-laravel",
+    "description": "The Laravel Bkash Payment Gateway package is a simple and efficient way to integrate Bkash payment functionality into your Laravel application.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Ddbaidya\\BkashLaravel\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Debdulal Baidya",
+            "email": "ovibaidya72@gmail.com"
+        }
+    ],
+    "require": {}
+}
