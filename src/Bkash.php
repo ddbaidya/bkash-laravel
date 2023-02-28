@@ -227,4 +227,31 @@ class Bkash
         }
         return false;
     }
+
+    /**
+     * Execute Payment
+     *
+     * @param string $token
+     * @param string $paymentId
+     * @return array|boolean
+     */
+    public function executePayment(string $token, string $paymentId)
+    {
+        $url = $this->baseUrl . '/checkout/execute';
+        $headers = array(
+            "Authorization: Bearer " . $token,
+            "Content-Type: application/json",
+            "x-app-key: " . $this->appKey
+        );
+        $data = [
+            "paymentID" => $paymentId
+        ];
+        $response = $this->remotePostRequest($url, $data, $headers);
+        if ($response['status']) {
+            if (isset($response['body']->statusCode) && $response['body']->statusCode == '0000') {
+                return (array) $response['body'];
+            }
+        }
+        return false;
+    }
 }
