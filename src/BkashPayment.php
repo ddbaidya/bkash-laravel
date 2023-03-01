@@ -4,7 +4,7 @@ namespace Ddbaidya\BkashLaravel;
 
 use stdClass;
 
-class Bkash
+class BkashPayment
 {
     /**
      * Bkash sandbox status.
@@ -247,6 +247,37 @@ class Bkash
             "paymentID" => $paymentId
         ];
         $response = $this->remotePostRequest($url, $data, $headers);
+        if ($response['status']) {
+            if (isset($response['body']->statusCode) && $response['body']->statusCode == '0000') {
+                return (array) $response['body'];
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Query Payment.
+     *
+     * @param string $token
+     * @param string $paymentId
+     * @return array|boolean
+     */
+    public function queryPayment(string $token, string $paymentId)
+    {
+        $url = $this->baseUrl . '/checkout/payment/status';
+
+        $headers = array(
+            "Authorization: Bearer " . $token,
+            "Content-Type: application/json",
+            "x-app-key: " . $this->appKey
+        );
+
+        $data = [
+            "paymentID" => $paymentId
+        ];
+
+        $response = $this->remotePostRequest($url, $data, $headers);
+
         if ($response['status']) {
             if (isset($response['body']->statusCode) && $response['body']->statusCode == '0000') {
                 return (array) $response['body'];

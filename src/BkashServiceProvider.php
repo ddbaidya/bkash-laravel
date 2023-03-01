@@ -25,8 +25,8 @@ class BkashServiceProvider extends ServiceProvider
             ]);
         }
 
-        $this->app->singleton('bkash', function () {
-            return new Bkash();
+        $this->app->singleton('bkashPayment', function () {
+            return new BkashPayment();
         });
     }
 }

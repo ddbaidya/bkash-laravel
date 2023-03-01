@@ -8,6 +8,6 @@ class BkashFacade extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'bkash';
+        return 'bkashPayment';
     }
 }
