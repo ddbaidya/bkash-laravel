@@ -3,3 +3,19 @@ Bkash-Laravel refers to the integration of Bkash payment gateway with Laravel, a
 ## Authors
 
 - [Debdulal Baidya](https://www.github.com/ddbaidya)
+
+
+## Installation
+
+Install Bkash-Payment with composer
+
+```bash
+  composer required ovi/bkash-payment
+```
+    
+## Usage/Examples
+### Publish packege files
+```javascript
+php artisan vendor:publish --provider="Ddbaidya\BkashLaravel\BkashServiceProvider"
+```
+
