@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\URL;
+
 return [
 
     /*
@@ -29,5 +31,5 @@ return [
 
     'sandboxUrl' => 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized',
 
-    'callbackUrl' => '/payment/success',
+    'callbackUrl' => env('BKASH_CALLBACK_URL', url('/payment/success')),
 ];

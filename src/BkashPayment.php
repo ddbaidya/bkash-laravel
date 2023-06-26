@@ -8,56 +8,56 @@ class BkashPayment
 {
     /**
      * Bkash sandbox status.
-     * 
+     *
      * @var bool
      */
     private $sandbox = true;
 
     /**
      * Bkash username.
-     * 
+     *
      * @var string
      */
     private $username;
 
     /**
      * Bkash password.
-     * 
+     *
      * @var string
      */
     private $password;
 
     /**
      * Bkash app key.
-     * 
+     *
      * @var string
      */
     private $appKey;
 
     /**
      * Bkash app secret.
-     * 
+     *
      * @var string
      */
     private $appSecret;
 
     /**
      * Bkash base url.
-     * 
+     *
      * @var string
      */
     private $baseUrl;
 
     /**
      * Callback URL
-     * 
+     *
      * @var string
      */
     private $callbackUrl;
 
     /**
      * Bkash instance.
-     * 
+     *
      * @return void
      */
     public function __construct()
@@ -73,7 +73,7 @@ class BkashPayment
 
     /**
      * Post request to Bkash server.
-     * 
+     *
      * @param string $url
      * @param array $body
      * @param array $headers
@@ -136,7 +136,7 @@ class BkashPayment
 
     /**
      * Id token.
-     * 
+     *
      * @return string|boolean
      */
     public function idToken()
@@ -180,7 +180,7 @@ class BkashPayment
 
     /**
      * Refresh id token.
-     * 
+     *
      * @param string $refreshToken
      * @return string|boolean
      */
