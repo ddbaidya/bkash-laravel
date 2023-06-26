@@ -23,6 +23,8 @@ class BkashServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../config/bkash.php' => config_path('bkash.php'),
             ]);
+
+            $this->loadMigrationsFrom(__DIR__ . '/../migrations');
         }
     }
 }
