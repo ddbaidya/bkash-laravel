@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string("status")->default("Initiated");
             $table->string("msisdn")->nullable();
             $table->text("token")->nullable();
+            $table->timestamps();
         });
     }
 
